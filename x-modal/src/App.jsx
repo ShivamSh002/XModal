@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 
 function App() {
@@ -9,7 +9,6 @@ function App() {
     phone: "",
     dob: ""
   });
-  const modalRef = useRef(null);
 
   const toggleModal = () => {
     setIsOpen(!isOpen);
@@ -17,7 +16,7 @@ function App() {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
+      if (isOpen && !event.target.closest(".modal")) {
         setIsOpen(false);
       }
     };
@@ -26,7 +25,7 @@ function App() {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [isOpen]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -45,16 +44,20 @@ function App() {
     } else if (!validatePhoneNumber(formData.phone)) {
       alert("Invalid phone number. Please enter a 10-digit phone number.");
     } else {
+      // Handle form submission logic here
+      // For now, just close the modal
       toggleModal();
     }
   };
 
   const validateEmail = (email) => {
+    // Regular expression for email validation
     const re = /\S+@\S+\.\S+/;
     return re.test(email);
   };
 
   const validatePhoneNumber = (phone) => {
+    // Regular expression for 10-digit phone number validation
     const re = /^\d{10}$/;
     return re.test(phone);
   };
@@ -64,7 +67,7 @@ function App() {
       <h1>User Details Modal</h1>
       <button onClick={toggleModal}>Open Form</button>
       {isOpen && (
-        <div className="modal-overlay" ref={modalRef}>
+        <div className="modal-overlay">
           <div className="modal">
             <div className="modal-content">
               <form onSubmit={handleSubmit} className="form">
