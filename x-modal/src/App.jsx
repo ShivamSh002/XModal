@@ -16,7 +16,7 @@ function App() {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (isOpen && !event.target.closest(".modal")) {
+      if (isOpen && !event.target.closest(".modal-content")) {
         setIsOpen(false);
       }
     };
@@ -44,20 +44,17 @@ function App() {
     } else if (!validatePhoneNumber(formData.phone)) {
       alert("Invalid phone number. Please enter a 10-digit phone number.");
     } else {
-      // Handle form submission logic here
-      // For now, just close the modal
       toggleModal();
     }
   };
 
   const validateEmail = (email) => {
-    // Regular expression for email validation
+
     const re = /\S+@\S+\.\S+/;
     return re.test(email);
   };
 
   const validatePhoneNumber = (phone) => {
-    // Regular expression for 10-digit phone number validation
     const re = /^\d{10}$/;
     return re.test(phone);
   };
